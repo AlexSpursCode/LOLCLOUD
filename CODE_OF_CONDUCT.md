@@ -16,4 +16,4 @@ Unacceptable behavior includes harassment, discrimination, and abusive language.
 
 ## Enforcement
 
-Report conduct issues to conduct@lolcloud.dev. Maintainers may remove or moderate content that violates these standards.
+Report conduct issues to aucestovara@gmail.com. Maintainers may remove or moderate content that violates these standards.

@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-Please report vulnerabilities privately via: security@lolcloud.dev
+Please report vulnerabilities privately via: aucestovara@gmail.com
 
 Include:
 
