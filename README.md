@@ -2,6 +2,12 @@
 
 LOLCLOUD is a community-driven catalog and investigation framework for cloud-native Living Off the Land (LotL) techniques.
 
+## Why LOLCLOUD
+
+LOLCLOUD was created to address a gap in modern detection engineering: most Living Off the Land references were designed for endpoint binaries, while attackers increasingly abuse cloud-native control planes, identity systems, and service APIs.
+
+Projects like LOLBAS established a strong model for documenting trusted binary abuse on hosts. LOLCLOUD builds beyond that model for cloud environments by cataloging abuse of native cloud primitives across AWS, Azure, and GCP, with provider-specific telemetry requirements, detection guidance, and risk scoring that can be operationalized in SIEM and SOC workflows.
+
 ## Phase 1 goals
 
 - Canonical cross-cloud technique schema (`TechniqueEntry v1`)
