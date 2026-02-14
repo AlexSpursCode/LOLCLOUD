@@ -55,6 +55,94 @@ Severity mapping:
 - `6.0-7.9`: high
 - `8.0-10.0`: critical
 
+## Operational Integration by Role
+
+### Security Engineers
+
+#### CI/CD integration
+
+1. In your application repository, pull LOLCLOUD as a submodule or pipeline artifact source.
+2. Add a validation stage that runs:
+
+```bash
+cd /Users/alejandroaucestovar/Desktop/LOLCLOUD
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/validate_catalog.py
+python scripts/export_json.py
+pytest -q
+```
+
+3. Configure the pipeline to fail if validation, export generation, or tests fail.
+4. Publish `exports/techniques.json` as a build artifact for downstream security tooling.
+5. Add a scheduled pipeline to diff previous vs current exports and open tickets for new or changed high-risk entries.
+
+#### SIEM integration
+
+1. Create a scheduled ingestion job (for example, daily) for `exports/techniques.ndjson`.
+2. Map key fields (`id`, `provider`, `attack_category`, `risk.score`, `risk.severity`, `mitre_attack`) into normalized SIEM fields.
+3. Build lookup tables keyed by LOLCLOUD `id`.
+4. Translate `detection.analytics` guidance into native SIEM queries.
+5. Correlate cloud audit events with LOLCLOUD IDs to enrich alerts with severity and mitigation context.
+
+#### Detection and incident response integration
+
+1. Store one detection-as-code rule per relevant catalog entry.
+2. Tag each rule with LOLCLOUD ID, ATT&CK technique ID, provider, and severity.
+3. Pass `technique_id`, `mitigation`, and `references` into SOAR cases.
+4. Require analysts to execute and document mitigation guidance from the matched entry.
+5. Measure MTTD/MTTR by LOLCLOUD ID to prioritize engineering backlog.
+
+### Security Auditors
+
+#### CI/CD integration for control evidence
+
+1. Add an audit evidence pipeline that runs `python scripts/validate_catalog.py`.
+2. Require each control test to map to one or more LOLCLOUD IDs.
+3. Generate a control coverage report showing mapped vs unmapped techniques.
+4. Block release sign-off if critical techniques do not have mapped detective or preventive controls.
+
+#### SIEM integration for telemetry assurance
+
+1. Import `exports/techniques.json` into your GRC or audit evidence store.
+2. For each technique, verify required logs listed in `telemetry.required_logs` are present in SIEM.
+3. Validate retention against `telemetry.retention_recommendation_days`.
+4. Produce a monthly evidence package mapping each technique to proof-of-log and proof-of-detection.
+5. File findings for missing logs, missing detections, or weak tuning.
+
+#### Detection and incident response audit checks
+
+1. Select sampled techniques each quarter across all providers.
+2. Execute tabletop or simulation scenarios and validate alert generation.
+3. Confirm cases include correct LOLCLOUD ID and response actions.
+4. Score pass/fail by technique and record gaps in the risk register.
+
+### Security Leadership (CISO / Security Director)
+
+#### CI/CD governance controls
+
+1. Require LOLCLOUD validation to pass before production deployment approval.
+2. Require owner assignment and remediation plan for newly introduced critical-risk techniques.
+3. Review weekly pipeline summaries for validation failures and critical deltas.
+
+#### SIEM and risk dashboard integration
+
+1. Build dashboards combining LOLCLOUD exports with live detection metrics.
+2. Track coverage by provider and attack category.
+3. Track KPI trends:
+   - Percent of techniques with active detections
+   - Percent with tested IR playbooks
+   - Count of open critical gaps
+4. Use trend data to drive budget and staffing priorities.
+
+#### Detection and incident response operating model
+
+1. Assign accountable owners for each attack category.
+2. Require post-incident reviews to map incidents to LOLCLOUD technique IDs.
+3. Enforce remediation SLA tiers based on severity.
+4. Run quarterly maturity reviews using LOLCLOUD as the baseline framework.
+
 ## Release target
 
 `v0.1.0` freezes `TechniqueEntry v1` and ships validated seed content with reproducible exports.
