@@ -26,6 +26,47 @@ Projects like LOLBAS established a strong model for documenting trusted binary a
 - `exports/`: Machine-readable artifacts generated from catalog
 - `tests/`: Unit tests for schema, scoring, and export integrity
 
+## How the Project Is Organized
+
+LOLCLOUD follows a source-validate-export workflow:
+
+1. Add or update techniques in `catalog/`
+2. Validate and score using `scripts/`
+3. Generate artifacts in `exports/`
+4. Verify behavior with `tests/`
+
+### `catalog/` (Source of truth)
+
+Provider-specific YAML entries that define cloud LotL techniques and detection guidance.
+
+### `schemas/` (Contract)
+
+Schema definitions that every entry must satisfy.
+Used by validation scripts and CI to block malformed contributions.
+
+### `taxonomy/` (Normalization)
+
+Shared tactic/category mapping references used to standardize labels and ATT&CK alignment.
+
+### `scripts/` (Toolchain)
+
+Automation for:
+- schema and content validation
+- deterministic risk scoring
+- reproducible export generation
+
+### `exports/` (Distribution format)
+
+Generated JSON/NDJSON outputs intended for integration with SIEM, analytics pipelines, and external consumers.
+
+### `tests/` (Quality assurance)
+
+Unit tests that confirm:
+- valid entries pass
+- invalid patterns fail
+- risk scoring is deterministic
+- export counts and formats remain correct
+
 ## Quick start
 
 ```bash
