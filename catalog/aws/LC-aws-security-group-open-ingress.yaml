@@ -1,0 +1,68 @@
+{
+  "id": "LC-aws-security-group-open-ingress",
+  "name": "AWS Security Group Open Ingress",
+  "provider": "aws",
+  "service": "ec2",
+  "description": "Authorizing broad ingress rules to expose internal assets and enable follow-on abuse through trusted cloud APIs.",
+  "attack_category": "control_plane",
+  "mitre_attack": [
+    {
+      "tactic": "Initial Access",
+      "technique_id": "T1190",
+      "technique_name": "Exploit Public-Facing Application"
+    }
+  ],
+  "example": {
+    "type": "cli",
+    "command_or_request": "aws ec2 authorize-security-group-ingress --group-id sg-0123456789abcdef0 --protocol tcp --port 22 --cidr 0.0.0.0/0"
+  },
+  "telemetry": {
+    "required_logs": [
+      "AWS control plane audit logs",
+      "AWS identity/authentication logs"
+    ],
+    "minimum_config": [
+      "Enable organization/subscription/project level audit logging",
+      "Retain logs in immutable storage with centralized aggregation"
+    ],
+    "blind_spots": [
+      "Actions from trusted automation identities may look benign",
+      "Short-lived tokens can reduce actor attribution confidence"
+    ],
+    "retention_recommendation_days": 365
+  },
+  "detection": {
+    "hypotheses": [
+      "This action is uncommon for the principal or workload baseline",
+      "The activity occurs outside approved change windows"
+    ],
+    "analytics": [
+      "Alert on first-time use of API by principal in 30 days",
+      "Correlate with subsequent permission changes or data transfer spikes"
+    ],
+    "false_positive_considerations": [
+      "Legitimate incident response or break-glass operations",
+      "Planned infrastructure migrations or deployment events"
+    ]
+  },
+  "risk": {
+    "privilege_required": 3,
+    "ease_of_abuse": 4,
+    "impact": 4,
+    "detection_likelihood": 3,
+    "evasion_potential": 3,
+    "score": 7.0,
+    "severity": "high"
+  },
+  "mitigation": [
+    "Enforce least privilege and scoped role assignments",
+    "Require approval workflows and alerting for sensitive API calls"
+  ],
+  "references": [
+    "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AuthorizeSecurityGroupIngress.html",
+    "https://attack.mitre.org/techniques/T1190/"
+  ],
+  "status": "reviewed",
+  "created_at": "2026-02-14T00:00:00Z",
+  "updated_at": "2026-02-14T00:00:00Z"
+}

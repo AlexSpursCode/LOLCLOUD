@@ -1,0 +1,18 @@
+name: Telemetry Gap Report
+description: Report missing logs or blind spots in an entry
+labels: ["telemetry-gap"]
+body:
+  - type: input
+    id: technique_id
+    attributes:
+      label: Technique ID
+      placeholder: LC-azure-example
+    validations:
+      required: true
+  - type: textarea
+    id: gap
+    attributes:
+      label: Telemetry gap
+      description: Describe missing visibility and provider constraints
+    validations:
+      required: true

@@ -1,0 +1,28 @@
+attack_categories:
+  - identity_abuse
+  - control_plane
+  - serverless_abuse
+  - cicd_abuse
+  - data_exfil
+  - api_misuse
+providers:
+  - aws
+  - azure
+  - gcp
+mitre_tactics:
+  - id: TA0001
+    name: Initial Access
+  - id: TA0003
+    name: Persistence
+  - id: TA0004
+    name: Privilege Escalation
+  - id: TA0005
+    name: Defense Evasion
+  - id: TA0006
+    name: Credential Access
+  - id: TA0007
+    name: Discovery
+  - id: TA0009
+    name: Collection
+  - id: TA0010
+    name: Exfiltration

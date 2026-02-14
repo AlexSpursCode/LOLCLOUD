@@ -1,0 +1,68 @@
+{
+  "id": "LC-azure-role-assignment-elevation",
+  "name": "Azure RBAC Role Assignment Elevation",
+  "provider": "azure",
+  "service": "rbac",
+  "description": "Creating high-privilege role assignments on subscriptions or management groups to escalate access.",
+  "attack_category": "identity_abuse",
+  "mitre_attack": [
+    {
+      "tactic": "Privilege Escalation",
+      "technique_id": "T1078",
+      "technique_name": "Valid Accounts"
+    }
+  ],
+  "example": {
+    "type": "cli",
+    "command_or_request": "az role assignment create --assignee <object-id> --role Owner --scope /subscriptions/<sub-id>"
+  },
+  "telemetry": {
+    "required_logs": [
+      "AZURE control plane audit logs",
+      "AZURE identity/authentication logs"
+    ],
+    "minimum_config": [
+      "Enable organization/subscription/project level audit logging",
+      "Retain logs in immutable storage with centralized aggregation"
+    ],
+    "blind_spots": [
+      "Actions from trusted automation identities may look benign",
+      "Short-lived tokens can reduce actor attribution confidence"
+    ],
+    "retention_recommendation_days": 365
+  },
+  "detection": {
+    "hypotheses": [
+      "This action is uncommon for the principal or workload baseline",
+      "The activity occurs outside approved change windows"
+    ],
+    "analytics": [
+      "Alert on first-time use of API by principal in 30 days",
+      "Correlate with subsequent permission changes or data transfer spikes"
+    ],
+    "false_positive_considerations": [
+      "Legitimate incident response or break-glass operations",
+      "Planned infrastructure migrations or deployment events"
+    ]
+  },
+  "risk": {
+    "privilege_required": 4,
+    "ease_of_abuse": 3,
+    "impact": 5,
+    "detection_likelihood": 3,
+    "evasion_potential": 3,
+    "score": 7.6,
+    "severity": "high"
+  },
+  "mitigation": [
+    "Enforce least privilege and scoped role assignments",
+    "Require approval workflows and alerting for sensitive API calls"
+  ],
+  "references": [
+    "https://learn.microsoft.com/azure/role-based-access-control/role-assignments-cli",
+    "https://attack.mitre.org/techniques/T1078/"
+  ],
+  "status": "reviewed",
+  "created_at": "2026-02-14T00:00:00Z",
+  "updated_at": "2026-02-14T00:00:00Z"
+}

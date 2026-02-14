@@ -1,0 +1,25 @@
+name: New Technique Submission
+description: Propose a new cloud LotL technique
+labels: ["new-technique"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Technique summary
+      description: What is the cloud-native abuse pattern?
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Provider
+      placeholder: aws | azure | gcp
+    validations:
+      required: true
+  - type: textarea
+    id: detection
+    attributes:
+      label: Detection notes
+      description: Add telemetry and hypotheses
+    validations:
+      required: true

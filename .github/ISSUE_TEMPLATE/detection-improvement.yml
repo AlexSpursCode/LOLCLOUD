@@ -1,0 +1,18 @@
+name: Detection Improvement
+description: Improve detection guidance for an existing entry
+labels: ["detection"]
+body:
+  - type: input
+    id: technique_id
+    attributes:
+      label: Technique ID
+      placeholder: LC-aws-example
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Proposed improvement
+      description: Explain logic changes and expected fidelity impact
+    validations:
+      required: true

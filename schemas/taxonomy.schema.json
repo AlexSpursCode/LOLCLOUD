@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lolcloud.dev/schemas/taxonomy.schema.json",
+  "title": "LOLCLOUDTaxonomy",
+  "type": "object",
+  "required": ["attack_categories", "providers", "mitre_tactics"],
+  "additionalProperties": false,
+  "properties": {
+    "attack_categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 6
+    },
+    "providers": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["aws", "azure", "gcp"] },
+      "minItems": 3
+    },
+    "mitre_tactics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^TA[0-9]{4}$" },
+          "name": { "type": "string", "minLength": 2 }
+        }
+      },
+      "minItems": 5
+    }
+  }
+}
